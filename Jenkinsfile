@@ -1,7 +1,11 @@
 pipeline {
-  agent none
+  agent any
+  tools {
+    maven 'mvn-3.8.4'
+  }
+
   stages {
-      agent any
+       
     stage('Maven Install') {
     /*  agent {
         docker {
@@ -15,7 +19,7 @@ pipeline {
     stage('Docker Build') {
       agent any
       steps {
-        sh 'docker build -t shanem/spring-petclinic:latest .'
+        sh 'docker build -t tharun60/dockersample:2 .'
       }
     }
     stage('Docker Push') {
@@ -23,7 +27,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
           sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh 'docker push shanem/spring-petclinic:latest'
+          sh 'docker push tharun60/dockersample:2'
         }
       }
     }
